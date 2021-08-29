@@ -1,0 +1,20 @@
+{
+  "name": "react-tree-table",
+  "author": "Benoit Girard <b56girard@gmail.com>",
+  "contributors": [
+    "Forked from https://github.com/firefox-devtools/profiler"
+  ],
+  "version": "1.0.0",
+  "description": "React Tree Table for when you want to see a tree view with tabular design. Optimized for high performance.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "tree",
+    "table"
+  ],
+  "license": "MPL-2.0"
+}
