@@ -8,7 +8,9 @@
   "description": "React Tree Table for when you want to see a tree view with tabular design. Optimized for high performance.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "del dist && rollup -c",
+    "flow": "flow check --max-warnings=0 src"
   },
   "keywords": [
     "react",
@@ -16,5 +18,31 @@
     "tree",
     "table"
   ],
-  "license": "MPL-2.0"
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/plugin-external-helpers": "^7.14.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-url": "^6.1.0",
+    "babel-preset-env": "^1.7.0",
+    "del-cli": "^4.0.1",
+    "flow-bin": "^0.96.0",
+    "flow-typed": "^3.3.1",
+    "rollup": "^2.56.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^1.1.0"
+  },
+  "dependencies": {
+    "@fluent/react": "^0.13.1",
+    "array-range": "^1.0.1",
+    "classnames": "^2.3.1",
+    "react": "^16.0.2",
+    "react-contextmenu": "^2.14.0",
+    "react-dom": "^16.0.2",
+    "rollup-plugin-flow": "^1.1.1"
+  }
 }

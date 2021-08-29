@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+.eslintcache
+*.orig
+*.rej
+bundle.min.js
+package-lock.json
+yarn.lock
