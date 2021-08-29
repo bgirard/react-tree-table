@@ -1,0 +1,15 @@
+<script>
+window.exports = {};
+</script>
+<div id="root"/>
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="/bundle.min.js"></script>
+<script>
+
+function Examples() {
+  return React.createElement(exports.ReactTreeTable, {});;
+}
+
+ReactDOM.render(React.createElement(Examples, {}), document.getElementById("root"));
+</script>
