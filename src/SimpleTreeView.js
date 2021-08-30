@@ -105,10 +105,11 @@ function transformTree(
     if (!treeEntry) {
       throw new Error('Malformed Tree');
     }
-    const parentNode = parentIndex ? nodeIndexes[parentIndex] : null;
+    const parentNode = parentIndex != null ? nodeIndexes[parentIndex] : null;
+
     nodeIndexes[nodeIndex] = {
       data: treeEntry.data,
-      depth: parentNode ? parentNode.depth + 1 : 1,
+      depth: parentNode != null ? parentNode.depth + 1 : 0,
       hasChildren: () => {
         const children = treeEntry.children || [];
         return children.length > 0;
@@ -138,7 +139,9 @@ function transformTree(
     hasChildren: (nodeIndex) => {
       return nodeIndexes[nodeIndex].hasChildren();
     },
-    getDepth: (nodeIndex) => nodeIndexes[nodeIndex].depth,
+    getDepth: (nodeIndex) => {
+      return nodeIndexes[nodeIndex].depth;
+    },
     getChildren: (nodeIndex) => {
       return nodeIndexes[nodeIndex].getChildren(index);
     },
