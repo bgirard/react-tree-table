@@ -8,7 +8,7 @@
   "contributors": [
     "Forked from https://github.com/firefox-devtools/profiler"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Tree Table for when you want to see a tree view with tabular design. Optimized for high performance use cases like showing performance data. Supports keyboard navigation for quick data traversal.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -48,12 +48,14 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^1.1.0"
   },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0"
+  },
   "dependencies": {
     "array-range": "^1.0.1",
     "classnames": "^2.3.1",
-    "react": "^16.0.2",
     "react-contextmenu": "^2.14.0",
-    "react-dom": "^16.0.2",
     "rollup-plugin-flow": "^1.1.1"
   }
 }
