@@ -7,18 +7,11 @@ import replace from '@rollup/plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import url from '@rollup/plugin-url';
 
-import pkg from './package.json';
-
 export default {
-  external: ['react', 'react-dom'],
-  globals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM'
-  },
-  input: 'src/index.js',
+  input: 'examples/index.js',
   output: [
     {
-      file: 'bundle.min.js',
+      file: 'examples/bundle.min.js',
       name: 'ReactTreeTable',
       format: 'cjs',
     }

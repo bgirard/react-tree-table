@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "del dist && rollup -c",
+    "build-examples": "rollup -c examples/rollup.config.js",
     "flow": "flow check --max-warnings=0 src"
   },
   "keywords": [
