@@ -23,7 +23,6 @@ declare module 'array-range' {
  * needed.
  */
 
-
 // Filename aliases
 declare module 'array-range/index' {
   declare module.exports: $Exports<'array-range'>;

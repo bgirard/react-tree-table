@@ -7,8 +7,12 @@ const exampleTree = {
   getRoots: () => {
     return [0];
   },
-  getDisplayData: (index) => {return {type: "Row " + index, name: "name"};},
-  hasChildren: (index) => { return index < 10; },
+  getDisplayData: (index) => {
+    return { type: 'Row ' + index, name: 'name' };
+  },
+  hasChildren: (index) => {
+    return index < 10;
+  },
   getDepth: (index) => index + 1,
   getChildren: (index) => {
     if (index < 10) {
@@ -17,15 +21,34 @@ const exampleTree = {
       return [];
     }
   },
+  getParent: (index) => {
+    return index - 1;
+  },
 };
 
-const mainColumn = {propName: "name", title: "name"};
-const fixedColumns = [{propName: "type", title: "type"}];
+const mainColumn = { propName: 'name', title: 'name' };
+const fixedColumns = [{ propName: 'type', title: 'type' }];
 
 function Examples() {
   const [expandedNodeIds, setExpandedNodeIds] = React.useState([]);
   const [sel, setSel] = React.useState(0);
-  return React.createElement(ReactTreeTable, {tree: exampleTree, contextMenuId: "test", mainColumn, indentWidth: 16, rowHeight: 32, fixedColumns, onSelectionChange: (node) => {setSel(node)}, maxNodeDepth: 10000, onExpandedNodesChange: (e) => {setExpandedNodeIds(e)}, expandedNodeIds: expandedNodeIds, selectedNodeId: sel});;
+  return React.createElement(ReactTreeTable, {
+    tree: exampleTree,
+    contextMenuId: 'test',
+    mainColumn,
+    indentWidth: 16,
+    rowHeight: 32,
+    fixedColumns,
+    onSelectionChange: (node) => {
+      setSel(node);
+    },
+    maxNodeDepth: 10000,
+    onExpandedNodesChange: (e) => {
+      setExpandedNodeIds(e);
+    },
+    expandedNodeIds: expandedNodeIds,
+    selectedNodeId: sel,
+  });
 }
 
-ReactDOM.render(<Examples/>, document.getElementById("root"));
+ReactDOM.render(<Examples />, document.getElementById('treeViewRoot'));

@@ -14,7 +14,7 @@ export default {
       file: 'examples/bundle.min.js',
       name: 'ReactTreeTable',
       format: 'cjs',
-    }
+    },
   ],
   plugins: [
     external(),
@@ -26,7 +26,7 @@ export default {
       exclude: 'node_modules/**',
     }),
     replace({
-      'process.env.NODE_ENV': 'true'
+      'process.env.NODE_ENV': 'true',
     }),
     resolve(),
     commonjs(),

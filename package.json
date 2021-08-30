@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write '**/*.js'",
     "build": "del dist && rollup -c",
     "build-examples": "rollup -c examples/rollup.config.js",
     "flow": "flow check --max-warnings=0 src"
@@ -32,6 +33,7 @@
     "del-cli": "^4.0.1",
     "flow-bin": "^0.96.0",
     "flow-typed": "^3.3.1",
+    "prettier": "^2.3.2",
     "rollup": "^2.56.3",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",

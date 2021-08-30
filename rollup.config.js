@@ -12,8 +12,8 @@ import pkg from './package.json';
 export default {
   external: ['react', 'react-dom'],
   globals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM'
+    react: 'React',
+    'react-dom': 'ReactDOM',
   },
   input: 'src/index.js',
   output: [
@@ -21,7 +21,7 @@ export default {
       file: 'bundle.min.js',
       name: 'ReactTreeTable',
       format: 'cjs',
-    }
+    },
   ],
   plugins: [
     external(),
@@ -33,7 +33,7 @@ export default {
       exclude: 'node_modules/**',
     }),
     replace({
-      'process.env.NODE_ENV': 'true'
+      'process.env.NODE_ENV': 'true',
     }),
     resolve(),
     commonjs(),
