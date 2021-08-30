@@ -36,8 +36,8 @@ function Examples() {
     tree: exampleTree,
     contextMenuId: 'test',
     mainColumn,
-    indentWidth: 16,
-    rowHeight: 32,
+    indentWidth: 10,
+    rowHeight: 16,
     fixedColumns,
     onSelectionChange: (node) => {
       setSel(node);

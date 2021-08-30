@@ -1,4 +1,5 @@
 #treeViewRoot {
   height: 1000px;
   display: flex;
+  font-size: 11px;
 }

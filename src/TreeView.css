@@ -6,7 +6,7 @@
   display: flex;
   flex: 1;
   flex-flow: column nowrap;
-  border-top: 1px solid var(--grey-30);
+  border-top: 1px solid var(rgb(215, 215, 219));
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
@@ -16,7 +16,7 @@
   position: relative;
   height: 16px;
   padding: 1px 0;
-  border-bottom: 1px solid var(--grey-30);
+  border-bottom: 1px solid var(rgb(215, 215, 219));
   background: white;
 }
 
@@ -93,57 +93,11 @@
   content: '';
 }
 
-.treeViewHeaderColumn.total,
-.treeViewHeaderColumn.self {
-  text-align: right;
-}
-
 .treeViewRowColumn.treeViewFixedColumn {
   overflow: hidden;
   box-sizing: border-box;
-  border-right: 1px solid var(--grey-30);
+  border-right: 1px solid var(rgb(215, 215, 219));
   text-overflow: ellipsis;
-}
-
-.treeViewFixedColumn.total {
-  left: 0;
-  width: 70px;
-}
-
-.treeViewFixedColumn.totalPercent {
-  left: 70px;
-  width: 50px;
-  border-right: none;
-}
-
-.treeViewFixedColumn.self {
-  left: 120px;
-  width: 70px;
-}
-
-.treeViewHeaderColumn.total {
-  width: 120px;
-}
-
-.treeViewFixedColumn.icon {
-  left: 190px;
-  display: flex;
-  width: 19px;
-  flex-flow: column nowrap;
-  align-items: center;
-}
-
-.treeViewRowColumn.total,
-.treeViewRowColumn.totalPercent,
-.treeViewRowColumn.self,
-.treeViewRowColumn.timestamp {
-  padding-right: 5px;
-  text-align: right;
-}
-
-.treeViewRowColumn.type {
-  padding-left: 5px;
-  text-align: left;
 }
 
 .treeRowIndentSpacer {
@@ -165,11 +119,11 @@
 
 /* Note that `isRightClicked` is present before `isSelected` so that it can be overriden. */
 .treeViewRow.isRightClicked {
-  background-color: var(--blue-50-a30);
+  background-color: var(rgba(10, 132, 255, 0.3));
 }
 
 .treeViewRow.isSelected {
-  background-color: var(--grey-30);
+  background-color: var(rgb(215, 215, 219));
   color: black;
 }
 
@@ -221,7 +175,7 @@
 }
 
 .treeRowToggleButton:active:hover {
-  color: var(--grey-60);
+  color: var(rgb(153,153,153));
 }
 
 .treeViewBody:focus .treeViewRow.isSelected > .treeRowToggleButton {
@@ -238,26 +192,11 @@
   visibility: hidden;
 }
 
-.treeViewFixedColumn.start {
-  left: 0;
-  width: 80px;
-  padding-right: 5px;
-  text-align: right;
+/* Defaults */
+.treeViewRowColumn.treeViewFixedColumn,
+.treeViewHeaderColumn.treeViewFixedColumn {
+  display: inline-block;
+  position: relative;
+  width: 50px;
 }
 
-.treeViewFixedColumn.duration {
-  left: 80px;
-  width: 80px;
-  padding-right: 5px;
-  border-right: none;
-  text-align: right;
-}
-
-.treeViewFixedColumn.type {
-  left: 160px;
-  width: 80px;
-}
-
-.treeViewMainColumn.name {
-  left: 255px;
-}
