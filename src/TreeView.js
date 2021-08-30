@@ -9,7 +9,6 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { Localized } from '@fluent/react';
 
 import { VirtualList } from './VirtualList';
 
@@ -36,7 +35,7 @@ type NodeIndex = number;
 
 export type Column<DisplayData: Object> = {|
   +propName: string,
-  +titleL10nId: string,
+  +title: string,
   +component?: React.ComponentType<{|
     displayData: DisplayData,
   |}>,
@@ -51,28 +50,20 @@ const TreeViewHeader = <DisplayData: Object>({
   fixedColumns,
   mainColumn,
 }: TreeViewHeaderProps<DisplayData>) => {
-  if (fixedColumns.length === 0 && !mainColumn.titleL10nId) {
+  if (fixedColumns.length === 0 && !mainColumn.title) {
     // If there is nothing to display in the header, do not render it.
     return null;
   }
   return (
     <div className="treeViewHeader">
       {fixedColumns.map(col => (
-        <Localized
-          id={col.titleL10nId}
-          attrs={{ title: true }}
-          key={col.propName}
-        >
           <span
             className={`treeViewHeaderColumn treeViewFixedColumn ${col.propName}`}
-          ></span>
-        </Localized>
+          >{col.title}</span>
       ))}
-      <Localized id={mainColumn.titleL10nId} attrs={{ title: true }}>
-        <span
-          className={`treeViewHeaderColumn treeViewMainColumn ${mainColumn.propName}`}
-        ></span>
-      </Localized>
+      <span
+        className={`treeViewHeaderColumn treeViewMainColumn ${mainColumn.propName}`}
+      >{mainColumn.title}</span>
     </div>
   );
 };
