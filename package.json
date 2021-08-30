@@ -1,11 +1,15 @@
 {
-  "name": "react-tree-table",
+  "name": "react-tree-table-optimized",
   "author": "Benoit Girard <b56girard@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bgirard/react-tree-table"
+  },
   "contributors": [
     "Forked from https://github.com/firefox-devtools/profiler"
   ],
   "version": "1.0.0",
-  "description": "React Tree Table for when you want to see a tree view with tabular design. Optimized for high performance.",
+  "description": "React Tree Table for when you want to see a tree view with tabular design. Optimized for high performance use cases like showing performance data. Supports keyboard navigation for quick data traversal.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
