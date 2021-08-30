@@ -6,7 +6,7 @@
   display: flex;
   flex: 1;
   flex-flow: column nowrap;
-  border-top: 1px solid var(rgb(215, 215, 219));
+  border-top: 1px solid rgb(215, 215, 219);
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
@@ -16,7 +16,7 @@
   position: relative;
   height: 16px;
   padding: 1px 0;
-  border-bottom: 1px solid var(rgb(215, 215, 219));
+  border-bottom: 1px solid rgb(215, 215, 219);
   background: white;
 }
 
@@ -96,7 +96,7 @@
 .treeViewRowColumn.treeViewFixedColumn {
   overflow: hidden;
   box-sizing: border-box;
-  border-right: 1px solid var(rgb(215, 215, 219));
+  border-right: 1px solid rgb(215, 215, 219);
   text-overflow: ellipsis;
 }
 
@@ -119,11 +119,11 @@
 
 /* Note that `isRightClicked` is present before `isSelected` so that it can be overriden. */
 .treeViewRow.isRightClicked {
-  background-color: var(rgba(10, 132, 255, 0.3));
+  background-color: rgba(10, 132, 255, 0.3);
 }
 
 .treeViewRow.isSelected {
-  background-color: var(rgb(215, 215, 219));
+  background-color: rgb(215, 215, 219);
   color: black;
 }
 
@@ -175,7 +175,7 @@
 }
 
 .treeRowToggleButton:active:hover {
-  color: var(rgb(153,153,153));
+  color: rgb(153,153,153);
 }
 
 .treeViewBody:focus .treeViewRow.isSelected > .treeRowToggleButton {
