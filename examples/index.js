@@ -1,54 +1,26 @@
+// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ReactTreeTable } from '../src';
+import { SimpleReactTreeTable } from '../src';
 
-const exampleTree = {
-  getRoots: () => {
-    return [0];
+const EXAMPLE_TREE_DATA = [
+  {
+    id: 0,
+    data: { size: 1000, main: 'Root', isRoot: 'true' },
+    children: [1, 2, 3],
   },
-  getDisplayData: (index) => {
-    return { type: 'Row ' + index, name: 'name' };
-  },
-  hasChildren: (index) => {
-    return index < 10;
-  },
-  getDepth: (index) => index + 1,
-  getChildren: (index) => {
-    if (index < 10) {
-      return [index + 1];
-    } else {
-      return [];
-    }
-  },
-  getParent: (index) => {
-    return index - 1;
-  },
-};
-
-const mainColumn = { propName: 'name', title: 'name' };
-const fixedColumns = [{ propName: 'type', title: 'type' }];
+  { id: 1, data: { size: 1000, main: 'C1' }, children: [] },
+  { id: 2, data: { size: 1000, main: 'C2' }, children: [] },
+  { id: 3, data: { size: 1000, main: 'C3' }, children: [] },
+];
 
 function Examples() {
-  const [expandedNodeIds, setExpandedNodeIds] = React.useState([]);
-  const [sel, setSel] = React.useState(0);
-  return React.createElement(ReactTreeTable, {
-    tree: exampleTree,
-    contextMenuId: 'test',
-    mainColumn,
-    indentWidth: 10,
-    rowHeight: 16,
-    fixedColumns,
-    onSelectionChange: (node) => {
-      setSel(node);
-    },
-    maxNodeDepth: 10000,
-    onExpandedNodesChange: (e) => {
-      setExpandedNodeIds(e);
-    },
-    expandedNodeIds: expandedNodeIds,
-    selectedNodeId: sel,
-  });
+  return <SimpleReactTreeTable treeData={EXAMPLE_TREE_DATA} />;
 }
 
-ReactDOM.render(<Examples />, document.getElementById('treeViewRoot'));
+const root = document.getElementById('treeViewRoot');
+if (!root) {
+  throw new Error('Could not find root');
+}
+ReactDOM.render(<Examples />, root);
