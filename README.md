@@ -5,3 +5,7 @@ React Tree Table is a high performance React component designed to render data i
 # Usage
 
 You may use SimpleReactTreeTable with a simplified data modal or you may use ReactTreeTable directly for better performance or if your data is too large or slow to fit fully in memory.
+
+# Attributions
+
+This component was forked from the shared components in the [Firefox Profiler](https://github.com/firefox-devtools/profiler).
