@@ -90,7 +90,8 @@ function transformTree(
   const cache: Map<string, NodeIndex> = new Map();
   function generateNodeIndex(
     treeID: TreeID,
-    parentIndex: NodeIndex | null = null
+    parentIndex: NodeIndex | null = null,
+    seenSet: Set<TreeID> = new Set()
   ): NodeIndex {
     // If this exists already we must return the same nodeIndex
     const parentIndexType = typeof parentIndex;
@@ -100,6 +101,7 @@ function transformTree(
     if (cachedValue) {
       return cachedValue;
     }
+    seenSet.add(treeID);
     const nodeIndex = nextNodeIndex++;
     const treeEntry = treeIDLookup.get(treeID);
     if (!treeEntry) {
@@ -112,13 +114,15 @@ function transformTree(
       depth: parentNode != null ? parentNode.depth + 1 : 0,
       hasChildren: () => {
         const children = treeEntry.children || [];
-        return children.length > 0;
+        return children.filter((childID) => !seenSet.has(childID)).length > 0;
       },
       getChildren: () => {
         const children = treeEntry.children || [];
-        return children.map((childID) => {
-          return generateNodeIndex(childID, nodeIndex);
-        });
+        return children
+          .filter((childID) => !seenSet.has(childID))
+          .map((childID) => {
+            return generateNodeIndex(childID, nodeIndex, new Set([...seenSet]));
+          });
       },
       parentIndex,
     };
