@@ -5,22 +5,20 @@ import flow from 'rollup-plugin-flow';
 import postcss from 'rollup-plugin-postcss';
 import replace from '@rollup/plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
-import url from '@rollup/plugin-url';
 
 import pkg from './package.json';
 
 export default {
   external: ['react', 'react-dom'],
-  globals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-  },
   input: 'src/index.js',
   output: [
     {
-      file: 'bundle.min.js',
-      name: 'ReactTreeTable',
+      file: pkg.main,
       format: 'cjs',
+    },
+    {
+      file: pkg.module,
+      format: 'esm',
     },
   ],
   plugins: [
