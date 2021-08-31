@@ -5,6 +5,7 @@
 
 import { TreeView } from './TreeView';
 import { SimpleTreeView } from './SimpleTreeView';
+import './TreeView.css';
 
 export { TreeView as ReactTreeTable };
 export { SimpleTreeView as SimpleReactTreeTable };
