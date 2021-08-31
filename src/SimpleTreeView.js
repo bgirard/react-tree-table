@@ -117,6 +117,7 @@ function transformTree(
     if (cachedValue) {
       return cachedValue;
     }
+    const wasSeen = seenSet.has(treeID);
     seenSet.add(treeID);
     const nodeIndex = nextNodeIndex++;
     const treeEntry = treeIDLookup.get(treeID);
@@ -129,13 +130,18 @@ function transformTree(
       data: treeEntry.data,
       depth: parentNode != null ? parentNode.depth + 1 : 0,
       hasChildren: () => {
+        if (wasSeen) {
+          return false; // Don't show cycle
+        }
         const children = treeEntry.children || [];
-        return children.filter((childID) => !seenSet.has(childID)).length > 0;
+        return children;
       },
       getChildren: () => {
+        if (wasSeen) {
+          return []; // Don't show cycle
+        }
         const children = treeEntry.children || [];
         return children
-          .filter((childID) => !seenSet.has(childID))
           .map((childID) => {
             return generateNodeIndex(childID, nodeIndex, new Set([...seenSet]));
           })
