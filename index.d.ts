@@ -20,6 +20,12 @@ export type SimpleTreeViewProps = {
   // If not given, treeData entries that aren't listed as children
   // will be considered roots.
   roots?: Array<TreeID>,
+  // Quickly remapped the columns from one type to another
+  dataMapper?: Record<string, (data: React.Node) => React.Node>,
+  sorter?: (
+    a: Record<string, React.Node>,
+    b: Record<string, React.Node>
+  ) => number,
 };
 
 export function SimpleReactTreeTable(props: SimpleTreeViewProps): ReactElement;

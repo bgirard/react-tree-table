@@ -24,6 +24,11 @@ export type TreeData = Array<TreeEntry>;
 
 export type SimpleTreeViewProps = {
   treeData: TreeData,
+  dataMapper?: Record<string, (data: React.Node) => React.Node>,
+  sorter?: (
+    a: Record<string, React.Node>,
+    b: Record<string, React.Node>
+  ) => number,
   columnHeaders?: Record<string, React.Node>,
   // Defaults to main
   mainColumn?: string,
@@ -58,6 +63,11 @@ function findFixedColumns(tree: TreeData, mainColumn: string) {
 function transformTree(
   tree: TreeData,
   mainColumn: string,
+  dataMapper?: Record<string, (data: React.Node) => React.Node>,
+  sorter?: (
+    a: Record<string, React.Node>,
+    b: Record<string, React.Node>
+  ) => number,
   rootsInitial?: Array<TreeID>
 ) {
   let roots: Array<TreeID> = [];
@@ -88,6 +98,12 @@ function transformTree(
   let nextNodeIndex = 0;
   const nodeIndexes = {};
   const cache: Map<string, NodeIndex> = new Map();
+  const nodeSorter = (nodeIndexA, nodeIndexB) => {
+    if (sorter) {
+      return sorter(nodeIndexes[nodeIndexA].data, nodeIndexes[nodeIndexB].data);
+    }
+    return 0;
+  };
   function generateNodeIndex(
     treeID: TreeID,
     parentIndex: NodeIndex | null = null,
@@ -122,7 +138,8 @@ function transformTree(
           .filter((childID) => !seenSet.has(childID))
           .map((childID) => {
             return generateNodeIndex(childID, nodeIndex, new Set([...seenSet]));
-          });
+          })
+          .sort(nodeSorter);
       },
       parentIndex,
     };
@@ -135,9 +152,24 @@ function transformTree(
   });
   const transformedTree = {
     getRoots: () => {
-      return generatedRoots;
+      return generatedRoots.sort(nodeSorter);
     },
     getDisplayData: (nodeIndex) => {
+      const mapper = dataMapper;
+      if (mapper) {
+        const data: Record<string, React.Node> = nodeIndexes[nodeIndex].data;
+        const mappedData: Record<string, React.Node> = {};
+        Object.entries(data).forEach(([k, v]) => {
+          const mapperFunc = mapper[k];
+          const value: React.Node = (v: any);
+          if (mapperFunc) {
+            mappedData[k] = mapperFunc(value);
+          } else {
+            mappedData[k] = value;
+          }
+        });
+        return mappedData;
+      }
       return nodeIndexes[nodeIndex].data;
     },
     hasChildren: (nodeIndex) => {
@@ -167,10 +199,12 @@ export function SimpleTreeView({
   roots,
   mainColumn = 'main',
   maxNodeDepth = 1000,
+  dataMapper,
+  sorter,
 }: SimpleTreeViewProps) {
   const { transformedTree, fixedColumns } = React.useMemo(() => {
-    return transformTree(treeData, mainColumn, roots);
-  }, [treeData, roots]);
+    return transformTree(treeData, mainColumn, dataMapper, sorter, roots);
+  }, [treeData, roots, sorter, dataMapper]);
   const [expandedNodeIds, setExpandedNodeIds] = React.useState([]);
   const [sel, setSel] = React.useState(0);
 
