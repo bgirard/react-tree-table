@@ -6,3 +6,4 @@ node_modules/
 bundle.min.js
 package-lock.json
 yarn.lock
+dist

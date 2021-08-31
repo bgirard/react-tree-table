@@ -8,7 +8,7 @@
   "contributors": [
     "Forked from https://github.com/firefox-devtools/profiler"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React Tree Table for when you want to see a tree view with tabular design. Optimized for high performance use cases like showing performance data. Supports keyboard navigation for quick data traversal.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -18,7 +18,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write '**/*.js'",
-    "build": "del dist && rollup -c",
+    "build": "del dist && rollup -c && cp index.d.ts dist",
     "build-examples": "rollup -c examples/rollup.config.js",
     "flow": "flow check --max-warnings=0 src"
   },
@@ -29,6 +29,7 @@
     "table"
   ],
   "license": "MPL-2.0",
+  "typings": "dist/index",
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/plugin-external-helpers": "^7.14.0",
