@@ -26,6 +26,8 @@ export type SimpleTreeViewProps = {
     a: Record<string, React.Node>,
     b: Record<string, React.Node>
   ) => number,
+  fixedColumns?: Array<string>,
+  contextMenu?: React.Element<any>,
 };
 
 export function SimpleReactTreeTable(props: SimpleTreeViewProps): ReactElement;

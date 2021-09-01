@@ -43,6 +43,9 @@ export type SimpleTreeViewProps = {
   // If not given, treeData entries that aren't listed as children
   // will be considered roots.
   roots?: Array<TreeID>,
+  // If provided, only the list columns will be shown
+  fixedColumns?: Array<string>,
+  contextMenu?: React.Element<any>,
 };
 
 type InternalTreeType = {
@@ -233,12 +236,14 @@ function transformTree(
 }
 
 export function SimpleTreeView({
-  treeData,
-  roots,
+  contextMenu,
+  dataMapper,
+  fixedColumns: fixedColumnsIn,
   mainColumn = 'main',
   maxNodeDepth = 1000,
-  dataMapper,
+  roots,
   sorter,
+  treeData,
 }: SimpleTreeViewProps) {
   const { transformedTree, fixedColumns } = React.useMemo(() => {
     return transformTree(treeData, mainColumn, dataMapper, sorter, roots);
@@ -248,14 +253,22 @@ export function SimpleTreeView({
 
   const mainColumnObj = { propName: mainColumn, title: mainColumn };
 
+  let effectiveFixedColumn = fixedColumns;
+  if (fixedColumnsIn) {
+    effectiveFixedColumn = fixedColumnsIn.map((column) => {
+      return { propName: column, title: column };
+    });
+  }
+
   return (
     <TreeView
       tree={transformedTree}
-      contextMenuId="test"
+      contextMenuId="TreeViewContextMenu"
+      contextMenu={contextMenu}
       mainColumn={mainColumnObj}
       indentWidth={10}
       rowHeight={16}
-      fixedColumns={fixedColumns}
+      fixedColumns={effectiveFixedColumn}
       onSelectionChange={setSel}
       maxNodeDepth={maxNodeDepth}
       onExpandedNodesChange={setExpandedNodeIds}
