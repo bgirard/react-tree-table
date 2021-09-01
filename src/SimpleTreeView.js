@@ -24,7 +24,14 @@ export type TreeData = Array<TreeEntry>;
 
 export type SimpleTreeViewProps = {
   treeData: TreeData,
-  dataMapper?: Record<string, (data: React.Node) => React.Node>,
+  dataMapper?: Record<
+    string,
+    (
+      data: React.Node,
+      dataMapped: Record<string, React.Node>,
+      path: Array<TreeEntry>
+    ) => React.Node
+  >,
   sorter?: (
     a: Record<string, React.Node>,
     b: Record<string, React.Node>
@@ -63,7 +70,14 @@ function findFixedColumns(tree: TreeData, mainColumn: string) {
 function transformTree(
   tree: TreeData,
   mainColumn: string,
-  dataMapper?: Record<string, (data: React.Node) => React.Node>,
+  dataMapper?: Record<
+    string,
+    (
+      data: React.Node,
+      dataMapped: Record<string, React.Node>,
+      path: Array<TreeEntry>
+    ) => React.Node
+  >,
   sorter?: (
     a: Record<string, React.Node>,
     b: Record<string, React.Node>
@@ -100,15 +114,23 @@ function transformTree(
   const cache: Map<string, NodeIndex> = new Map();
   const nodeSorter = (nodeIndexA, nodeIndexB) => {
     if (sorter) {
-      return sorter(nodeIndexes[nodeIndexA].data, nodeIndexes[nodeIndexB].data);
+      return sorter(
+        nodeIndexes[nodeIndexA].mappedData,
+        nodeIndexes[nodeIndexB].mappedData
+      );
     }
     return 0;
   };
   function generateNodeIndex(
     treeID: TreeID,
     parentIndex: NodeIndex | null = null,
-    seenSet: Set<TreeID> = new Set()
+    seenSet: Set<TreeID> = new Set(),
+    pathIn?: Array<TreeEntry>
   ): NodeIndex {
+    /// Adjust path
+    let path: Array<TreeEntry> = pathIn || [];
+    path = [...path];
+    path.push((treeIDLookup.get(treeID): any));
     // If this exists already we must return the same nodeIndex
     const parentIndexType = typeof parentIndex;
     const cacheKey =
@@ -126,8 +148,28 @@ function transformTree(
     }
     const parentNode = parentIndex != null ? nodeIndexes[parentIndex] : null;
 
+    let mappedData: Record<string, React.Node>;
+    if (dataMapper) {
+      const data: Record<string, React.Node> = treeEntry.data;
+      mappedData = { ...data };
+      const dataMapperNotNull = dataMapper;
+      Object.keys(dataMapper).forEach((dataMapperKey) => {
+        const mapperFunc = dataMapperNotNull[dataMapperKey];
+        const value: React.Node = (treeEntry.data[dataMapperKey]: any);
+        if (mapperFunc) {
+          mappedData[dataMapperKey] = mapperFunc(value, mappedData, path);
+        } else {
+          mappedData[dataMapperKey] = value;
+        }
+      });
+    } else {
+      mappedData = treeEntry.data;
+    }
+
     nodeIndexes[nodeIndex] = {
       data: treeEntry.data,
+      mappedData,
+      path,
       depth: parentNode != null ? parentNode.depth + 1 : 0,
       hasChildren: () => {
         if (wasSeen) {
@@ -143,7 +185,12 @@ function transformTree(
         const children = treeEntry.children || [];
         return children
           .map((childID) => {
-            return generateNodeIndex(childID, nodeIndex, new Set([...seenSet]));
+            return generateNodeIndex(
+              childID,
+              nodeIndex,
+              new Set([...seenSet]),
+              path
+            );
           })
           .sort(nodeSorter);
       },
@@ -161,22 +208,7 @@ function transformTree(
       return generatedRoots.sort(nodeSorter);
     },
     getDisplayData: (nodeIndex) => {
-      const mapper = dataMapper;
-      if (mapper) {
-        const data: Record<string, React.Node> = nodeIndexes[nodeIndex].data;
-        const mappedData: Record<string, React.Node> = {};
-        Object.entries(data).forEach(([k, v]) => {
-          const mapperFunc = mapper[k];
-          const value: React.Node = (v: any);
-          if (mapperFunc) {
-            mappedData[k] = mapperFunc(value);
-          } else {
-            mappedData[k] = value;
-          }
-        });
-        return mappedData;
-      }
-      return nodeIndexes[nodeIndex].data;
+      return nodeIndexes[nodeIndex].mappedData;
     },
     hasChildren: (nodeIndex) => {
       return nodeIndexes[nodeIndex].hasChildren();

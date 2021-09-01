@@ -21,7 +21,7 @@ export type SimpleTreeViewProps = {
   // will be considered roots.
   roots?: Array<TreeID>,
   // Quickly remapped the columns from one type to another
-  dataMapper?: Record<string, (data: React.Node) => React.Node>,
+  dataMapper?: Record<string, (data: React.Node, dataMapped: Record<string, React.Node>, path: Array<TreeEntry>) => React.Node>,
   sorter?: (
     a: Record<string, React.Node>,
     b: Record<string, React.Node>
