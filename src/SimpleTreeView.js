@@ -176,7 +176,7 @@ function transformTree(
           return false; // Don't show cycle
         }
         const children = treeEntry.children || [];
-        return children;
+        return children.length > 0;
       },
       getChildren: () => {
         if (wasSeen) {
