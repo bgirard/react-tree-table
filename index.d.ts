@@ -28,6 +28,8 @@ export type SimpleTreeViewProps = {
   ) => number,
   fixedColumns?: Array<string>,
   contextMenu?: React.Element<any>,
+  onRightClickSelection?: (item: TreeID) => void,
+  onSelectionChange?: (path: Array<TreeID>) => void,
 };
 
 export function SimpleReactTreeTable(props: SimpleTreeViewProps): ReactElement;

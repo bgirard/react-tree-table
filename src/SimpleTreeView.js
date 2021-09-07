@@ -46,6 +46,8 @@ export type SimpleTreeViewProps = {
   // If provided, only the list columns will be shown
   fixedColumns?: Array<string>,
   contextMenu?: React.Element<any>,
+  onRightClickSelection?: (item: TreeID) => void,
+  onSelectionChange?: (path: Array<TreeID>) => void,
 };
 
 type InternalTreeType = {
@@ -170,6 +172,7 @@ function transformTree(
     }
 
     nodeIndexes[nodeIndex] = {
+      treeEntry,
       data: treeEntry.data,
       mappedData,
       path,
@@ -216,6 +219,9 @@ function transformTree(
     hasChildren: (nodeIndex) => {
       return nodeIndexes[nodeIndex].hasChildren();
     },
+    getTreeEntry: (nodeIndex) => {
+      return nodeIndexes[nodeIndex].treeEntry;
+    },
     getDepth: (nodeIndex) => {
       return nodeIndexes[nodeIndex].depth;
     },
@@ -235,7 +241,7 @@ function transformTree(
   return { transformedTree, fixedColumns };
 }
 
-export function SimpleTreeView({
+export const SimpleTreeView = ({
   contextMenu,
   dataMapper,
   fixedColumns: fixedColumnsIn,
@@ -244,21 +250,53 @@ export function SimpleTreeView({
   roots,
   sorter,
   treeData,
-}: SimpleTreeViewProps) {
+  onRightClickSelection,
+  onSelectionChange = () => {},
+}: SimpleTreeViewProps) => {
   const { transformedTree, fixedColumns } = React.useMemo(() => {
     return transformTree(treeData, mainColumn, dataMapper, sorter, roots);
   }, [treeData, roots, sorter, dataMapper]);
   const [expandedNodeIds, setExpandedNodeIds] = React.useState([]);
   const [sel, setSel] = React.useState(0);
+  const onSelectionChangeInternal = React.useCallback(
+    (index: NodeIndex) => {
+      setSel(index);
 
-  const mainColumnObj = { propName: mainColumn, title: mainColumn };
+      const path = [];
 
-  let effectiveFixedColumn = fixedColumns;
-  if (fixedColumnsIn) {
-    effectiveFixedColumn = fixedColumnsIn.map((column) => {
-      return { propName: column, title: column };
-    });
-  }
+      let currIndex = index;
+      while (currIndex != null) {
+        let entry: TreeEntry = transformedTree.getTreeEntry(currIndex);
+        path.unshift(entry.id);
+        currIndex = transformedTree.getParent(currIndex);
+      }
+      onSelectionChange(path);
+    },
+    [transformedTree, onSelectionChange]
+  );
+
+  const mainColumnObj = React.useMemo(() => {
+    return { propName: mainColumn, title: mainColumn };
+  }, [mainColumn]);
+
+  const effectiveFixedColumn = React.useMemo(() => {
+    if (fixedColumnsIn) {
+      return fixedColumnsIn.map((column) => {
+        return { propName: column, title: column };
+      });
+    } else {
+      return fixedColumns;
+    }
+  }, [fixedColumnsIn, fixedColumns]);
+
+  const onRightClickSelectionInternal = React.useCallback(
+    (nodeIndex) => {
+      if (onRightClickSelection) {
+        onRightClickSelection(transformedTree.getTreeEntry(nodeIndex).id);
+      }
+    },
+    [onRightClickSelection, transformedTree]
+  );
 
   return (
     <TreeView
@@ -269,11 +307,12 @@ export function SimpleTreeView({
       indentWidth={10}
       rowHeight={16}
       fixedColumns={effectiveFixedColumn}
-      onSelectionChange={setSel}
+      onSelectionChange={onSelectionChangeInternal}
+      onRightClickSelection={onRightClickSelectionInternal}
       maxNodeDepth={maxNodeDepth}
       onExpandedNodesChange={setExpandedNodeIds}
       expandedNodeIds={expandedNodeIds}
       selectedNodeId={sel}
     />
   );
-}
+};
